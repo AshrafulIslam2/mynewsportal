@@ -18,13 +18,12 @@ function loadAllCatagory(catagoris) {
 function loadNewsall(catagorisId){
     fetch(`https://openapi.programming-hero.com/api/news/category/${catagorisId}`)
   .then((response) => response.json())
-        .then((data) => loadNews(data.data));   
+   .then((data) => loadNews(data.data))  
 }
 const loadNews = news => {
     const newsSection = document.getElementById("divBody");
     const totalNewsfnd = document.getElementById("total");
     totalNewsfnd.innerText = news.length;
-    (news.length);
     newsSection.innerHTML = '';
     news.forEach(element => {
         const newsDiv = document.createElement('div');
