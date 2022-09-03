@@ -13,6 +13,9 @@ function loadAllCatagory(catagoris) {
         <a class="nav-link active text-white" aria-current="page" href="#"  onclick="loadNews(${element.category_id})">${element.category_name}</a>
         `
         catagoryUl.appendChild(list);
-         console.log(element.category_id)
     });
-  }
+}
+function loadNews(catagorisId){
+    console.log(catagorisId);
+}
+  
