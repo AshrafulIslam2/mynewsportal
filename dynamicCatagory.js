@@ -46,11 +46,13 @@ const loadNews = news => {
    
     news.forEach(element => { // potita news div show koranor jonne code
         const newsDiv = document.createElement('div');
-        newsDiv.classList.add('row');
-        newsDiv.classList.add('g-1');
+        newsDiv.classList.add('card');
+        newsDiv.classList.add('mb-3');
+        newsDiv.style.maxWidth = "1340px";
         newsDiv.innerHTML = `
+        <div class=row g-1>
         <div class=" col-12 col-md-3 m-0 p-0 text-center text-sm-start text-md-start text-lg ">
-            <img src="${element.thumbnail_url ?element.thumbnail_url : "No Thumblin found"}" class="img-fluid p-3 rounded-start" alt="...">
+            <img src="${element.thumbnail_url ?element.thumbnail_url : "No Thumblin found"}" class="img-fluid p-3 ps-md-4 py-md-3  rounded-start" alt="...">
         </div>
         <div class="col-12 col-md-8">
             <div class="card-body">
@@ -80,6 +82,7 @@ const loadNews = news => {
                     </div>
                 </div>
             </div>
+        </div>
         </div>
        
         `
