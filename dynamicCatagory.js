@@ -1,13 +1,13 @@
 fetch('https://openapi.programming-hero.com/api/news/categories')
-  .then((response) => response.json())
+    .then((response) => response.json())
     .then((data) => loadAllCatagory(data.data.news_category))
-  .catch(error => console(error))
+    .catch(error => console.log(error));
 
 
 function loadAllCatagory(catagoris) {
     console.log(catagoris);
+    const catagoryUl = document.getElementById('dynamicCatagory');
     catagoris.forEach(element => {
-        const catagoryUl = document.getElementById('dynamicCatagory');
         const list = document.createElement('li');
         list.classList.add('nav-item');
         list.innerHTML = `
@@ -22,20 +22,30 @@ function loadNewsall(catagorisId) {
     // start sppiner 
     toggle(true);
     fetch(`https://openapi.programming-hero.com/api/news/category/${catagorisId}`)
-  .then((response) => response.json())
-        .then((data) => loadNews(data.data)) 
-        .catch(error => console(error))
- 
+        .then((response) => response.json())
+        .then((data) => loadNews(data.data))
+        .catch(error => console.log(error));
 }
 const loadNews = news => {
     const newsSection = document.getElementById("divBody");
     const totalNewsfnd = document.getElementById("total");
     totalNewsfnd.innerText = news.length;
+    if (news.length == 0) {
+        let title = document.getElementById("items")
+            title.innerText = "No News Found in caltural catgory"
+        totalNewsfnd.innerText = '';
+    }
+    else {
+        let title = document.getElementById("items")
+        title.innerText = "items found for category Entertainment"
+    }
     newsSection.innerHTML = '';
+    news.sort(function (a, b) {
+        return b.total_view - a.total_view
+        
+    });
+   
     news.forEach(element => {
-        if (element.length == 0) {
-            document.getElementById("items").innerText = "No News Found in caltural catgory"
-        }
         const newsDiv = document.createElement('div');
         newsDiv.classList.add('row');
         newsDiv.classList.add('g-1');
@@ -46,7 +56,7 @@ const loadNews = news => {
         <div class="col-12 col-md-8">
             <div class="card-body">
                 <h5 class="card-title">${element.title ?element.title :"no title found" }</h5>
-                <p class="card-text">${element.details ?element.details.slice(1,300) :"no details found"}...</p>
+                <p class="card-text">${element.details ?element.details.slice(1,400) :"no details found"}...</p>
                 <div class="d-lg-flex justify-content-between align-items-center">
                    <div class="d-flex mb-4">
                    <img class="me-2 rounded-circle" src="${element.author.img ? element.author.img :"No author image found"}" width=45px alt="" srcset="">
@@ -78,14 +88,16 @@ const loadNews = news => {
     });
     // stop spiner 
     toggle(false);
+     // for filter
+    short(news);
 }
 const loaddetails = id => {
     const url = `https://openapi.programming-hero.com/api/news/${id}`;
     console.log(url);
     fetch(url)
-    .then((response) => response.json())
+        .then((response) => response.json())
         .then((data) => displayNewsDetails(data.data[0]))
-        .catch(error => console(error))
+        .catch(error => console.log(error));
 }
 
 const displayNewsDetails = data => {
@@ -104,8 +116,7 @@ const displayNewsDetails = data => {
                                 <img src="${data.image_url? data.image_url: "no Image found"}" class="card-img-top" alt="...">
                                 <div class="card-body">
                                     <h5 class="card-title">${data.title?data.title:"No title found"}</h5>
-                                    <p class="card-text">Some quick example text to build on the card title and make up
-                                        the bulk of the card's content.</p>
+                                    <p class="card-text">${data.details ? data.details.slice(1,300) :"no details"}</p>
                                         <div class="d-flex mb-4">
                                         <img class="me-2 rounded-circle" src="${data.author.img ?data.author.img :"no author image found"}" width=45px alt="" srcset="">
                                          <div>
@@ -135,4 +146,6 @@ const toggle = isSpin => {
         spin.classList.add('d-none');
     }
 }
-  
+function short() {
+    console.log("i am clicked");
+}
