@@ -15,8 +15,12 @@ function loadAllCatagory(catagoris) {
         `
         catagoryUl.appendChild(list);
     });
+
+   
 }
-function loadNewsall(catagorisId){
+function loadNewsall(catagorisId) {
+    // start sppiner 
+    toggle(true);
     fetch(`https://openapi.programming-hero.com/api/news/category/${catagorisId}`)
   .then((response) => response.json())
         .then((data) => loadNews(data.data)) 
@@ -29,6 +33,9 @@ const loadNews = news => {
     totalNewsfnd.innerText = news.length;
     newsSection.innerHTML = '';
     news.forEach(element => {
+        if (element.length == 0) {
+            document.getElementById("items").innerText = "No News Found in caltural catgory"
+        }
         const newsDiv = document.createElement('div');
         newsDiv.classList.add('row');
         newsDiv.classList.add('g-1');
@@ -39,7 +46,7 @@ const loadNews = news => {
         <div class="col-12 col-md-8">
             <div class="card-body">
                 <h5 class="card-title">${element.title ?element.title :"no title found" }</h5>
-                <p class="card-text">${element.details ?element.details :"no details found"}</p>
+                <p class="card-text">${element.details ?element.details.slice(1,300) :"no details found"}...</p>
                 <div class="d-lg-flex justify-content-between align-items-center">
                    <div class="d-flex mb-4">
                    <img class="me-2 rounded-circle" src="${element.author.img ? element.author.img :"No author image found"}" width=45px alt="" srcset="">
@@ -69,6 +76,8 @@ const loadNews = news => {
         `
         newsSection.appendChild(newsDiv);
     });
+    // stop spiner 
+    toggle(false);
 }
 const loaddetails = id => {
     const url = `https://openapi.programming-hero.com/api/news/${id}`;
@@ -116,5 +125,14 @@ const displayNewsDetails = data => {
     `
     newsDetailsBody.append(newsCardDiv);
     
+}
+const toggle = isSpin => {
+    const spin = document.getElementById('spiner');
+    if (isSpin) {
+        spin.classList.remove('d-none');
+    }
+    else {
+        spin.classList.add('d-none');
+    }
 }
   
