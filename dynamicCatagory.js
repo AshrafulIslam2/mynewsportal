@@ -57,7 +57,8 @@ function loadNews(catagorisId){
                             <i class="fa-regular fa-star"></i>
                         </div>
                         <div>
-                        <i class="fa-solid fa-arrow-right"></i>
+                        <i class="fa-solid fa-arrow-right" data-bs-toggle="modal" data-bs-target="#newsleModal" onclick="loaddetails('${element._id}')"> 
+                         </i>
                         </div>
                     </div>
                 </div>
@@ -67,6 +68,44 @@ function loadNews(catagorisId){
             newsSection.appendChild(newsDiv);
         });
   }
+    
+}
+
+const loaddetails = id => {
+    const url = `https://openapi.programming-hero.com/api/news/${id}`;
+    console.log(url);
+    fetch(url)
+    .then((response) => response.json())
+    .then((data) =>   displayNewsDetails(data.data[0]));
+  ;
+}
+
+const displayNewsDetails = data => {
+    console.log(data);
+    let newsDetailsBody = document.getElementById("newsleModal")
+    let newsCardDiv = document.createElement('div');
+    newsCardDiv.classList.add('modal-dialog');
+    newsCardDiv.innerHTML = `
+    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="newsModalLabel">Modal title</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="">
+                            <div class="card modal-body">
+                                <img src="${data.image_url}" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">${data.title}</h5>
+                                    <p class="card-text">Some quick example text to build on the card title and make up
+                                        the bulk of the card's content.</p>
+                                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+    `
+    newsDetailsBody.append(newsCardDiv);
     
 }
   
