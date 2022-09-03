@@ -1,13 +1,12 @@
-fetch('https://openapi.programming-hero.com/api/news/categories')
+fetch('https://openapi.programming-hero.com/api/news/categories') // catagoris load 
     .then((response) => response.json())
-    .then((data) => loadAllCatagory(data.data.news_category))
-    .catch(error => console.log(error));
+    .then((data) => loadAllCatagory(data.data.news_category)) // navar catagory show koralam loadcatagory call kore
+    .catch(error => console.log(error));  //error handle 
 
 
 function loadAllCatagory(catagoris) {
-    console.log(catagoris);
     const catagoryUl = document.getElementById('dynamicCatagory');
-    catagoris.forEach(element => {
+    catagoris.forEach(element => { //each catagorir theke name nilam ar id loadNewsall pataidilam
         const list = document.createElement('li');
         list.classList.add('nav-item');
         list.innerHTML = `
@@ -21,9 +20,9 @@ function loadAllCatagory(catagoris) {
 function loadNewsall(catagorisId) {
     // start sppiner 
     toggle(true);
-    fetch(`https://openapi.programming-hero.com/api/news/category/${catagorisId}`)
+    fetch(`https://openapi.programming-hero.com/api/news/category/${catagorisId}`) // id wise catagory fecth kora holo
         .then((response) => response.json())
-        .then((data) => loadNews(data.data))
+        .then((data) => loadNews(data.data)) //per catagorir sb gula data array loadNews function e patano holo
         .catch(error => console.log(error));
 }
 const loadNews = news => {
@@ -33,7 +32,7 @@ const loadNews = news => {
     if (news.length == 0) {
         let title = document.getElementById("items")
             title.innerText = "No News Found in caltural catgory"
-        totalNewsfnd.innerText = '';
+        totalNewsfnd.innerText = '';  //error handle
     }
     else {
         let title = document.getElementById("items")
@@ -41,11 +40,11 @@ const loadNews = news => {
     }
     newsSection.innerHTML = '';
     news.sort(function (a, b) {
-        return b.total_view - a.total_view
+        return b.total_view - a.total_view //sort kora holo news higest view er upor short function run kore 
         
     });
    
-    news.forEach(element => {
+    news.forEach(element => { // potita news div show koranor jonne code
         const newsDiv = document.createElement('div');
         newsDiv.classList.add('row');
         newsDiv.classList.add('g-1');
@@ -89,9 +88,8 @@ const loadNews = news => {
     // stop spiner 
     toggle(false);
      // for filter
-    short(news);
 }
-const loaddetails = id => {
+const loaddetails = id => { //model er jonne code
     const url = `https://openapi.programming-hero.com/api/news/${id}`;
     console.log(url);
     fetch(url)
@@ -100,8 +98,7 @@ const loaddetails = id => {
         .catch(error => console.log(error));
 }
 
-const displayNewsDetails = data => {
-    console.log(data);
+const displayNewsDetails = data => { //modal body te news show koranor jonne function
     let newsDetailsBody = document.getElementById("newsleModal")
     newsDetailsBody.innerHTML = '';
     let newsCardDiv = document.createElement('div');
@@ -137,7 +134,7 @@ const displayNewsDetails = data => {
     newsDetailsBody.append(newsCardDiv);
     
 }
-const toggle = isSpin => {
+const toggle = isSpin => { // sppiner function
     const spin = document.getElementById('spiner');
     if (isSpin) {
         spin.classList.remove('d-none');
@@ -145,7 +142,4 @@ const toggle = isSpin => {
     else {
         spin.classList.add('d-none');
     }
-}
-function short() {
-    console.log("i am clicked");
 }
